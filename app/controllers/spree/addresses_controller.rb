@@ -8,7 +8,7 @@ class Spree::AddressesController < Spree::StoreController
   end
 
   def create
-    @address = spree_current_user.addresses.build(params[:address])
+    @address = spree_current_user.addresses.build(address_params)
     if @address.save
       flash[:notice] = Spree.t(:successfully_created, :resource => Spree::Address.model_name.human)
       redirect_to account_path
@@ -32,7 +32,7 @@ class Spree::AddressesController < Spree::StoreController
   def update
     if @address.editable?
       if @address.update_attributes(address_params)
-        flash[:notice] = I18n.t(:successfully_updated, :resource => Spree::Address.model_name.human)
+        flash[:notice] = I18n.t(:successfully_updated, :resource => I18n.t(:address))
         redirect_back_or_default(account_path)
       else
         render :action => "edit"
@@ -55,5 +55,11 @@ class Spree::AddressesController < Spree::StoreController
 
     flash[:notice] = I18n.t(:successfully_removed, :resource => Spree::Address.model_name.human)
     redirect_to(request.env['HTTP_REFERER'] || account_path) unless request.xhr?
+  end
+
+  private
+
+  def address_params
+    params.require(:address).permit(:firstname, :lastname, :address1, :address2, :city, :state_id, :zipcode, :country_id, :phone)
   end
 end
