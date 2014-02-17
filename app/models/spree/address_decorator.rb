@@ -33,7 +33,7 @@ Spree::Address.class_eval do
       "#{address2}",
       "#{city}, #{state || state_name} #{zipcode}",
       "#{country}"
-    ].reject(&:empty?).join("<br/>").html_safe
+    ].reject(&:empty?).join(", ").html_safe
   end
 
   # UPGRADE_CHECK if future versions of spree have a custom destroy function, this will break
