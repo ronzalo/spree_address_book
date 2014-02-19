@@ -1,0 +1,18 @@
+es:
+  address_book:
+    other_address: "Otra dirección"
+    choose_existing_address: "Quiero utilizar una dirección de despacho ya existente."
+    add_new_shipping_address: "Agregar dirección de despacho"
+    or_enter_new_address: "O ingrese una nueva dirección"
+    new_shipping_address: "Nueva dirección de despacho"
+    edit_shipping_address: "Editar dirección de despacho"
+    no_shipping_addresses_on_file: "Sin direcciones de despacho"
+    shipping_addresses: "Direcciones de despacho"
+    successfully_removed: "Eliminación exitosa"
+    successfully_saved: "Guardado exitoso"
+    unsuccessfully_saved: "Hay un error al intentar guardar su dirección."
+    successfully_updated: "Actualizado exitoso"
+    unsuccessfully_updated: "Hay un error al intentar actualizar su dirección."
+    save: "Guardar"
+    save_my_address: "Guardar dirección"
+
