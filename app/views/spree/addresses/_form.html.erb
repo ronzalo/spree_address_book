@@ -1,12 +1,13 @@
 <% address_id = address_type.chars.first %>
 <% country_id = address_type == 'billing' ? 'bcountry' : 'scountry' %>
+<div class="inner" data-hook=<%="#{address_type}_inner" %>>
 <% ADDRESS_FIELDS.each do |field| %>
   <% if field == "country" %>
 
   <p class="field" id=<%="#{address_id}country" %>>
     <%= form.label :country_id, t(:country) %><span class="required">*</span><br />
     <span id=<%="#{address_id}country-selection" %>>
-      <%= form.collection_select :country_id, available_countries, :id, :name, {}, {:class => 'required'} %>
+      <%= form.collection_select :country_id, available_countries, :id, :name, {}, {:class => 'form-control required'} %>
     </span>
 
   </p>
@@ -20,10 +21,10 @@
          form.collection_select(:state_id, address.country.states,
                             :id, :name,
                             {:include_blank => true},
-                            {:class => have_states ? 'required' : 'hidden',
+                            {:class => have_states ? 'form-control required' : 'form-control hidden',
                             :disabled => !have_states}) +
          form.text_field(:state_name,
-                            :class => !have_states ? 'required' : 'hidden',
+                            :class => !have_states ? 'form-control required' : 'form-control hidden',
                             :disabled => have_states)
          ].join.gsub('"', "'").gsub("\n", "")
       %>
@@ -32,7 +33,7 @@
       <% end %>
     </p>
       <noscript>
-        <%= form.text_field :state_name, :class => 'required' %>
+        <%= form.text_field :state_name, :class => 'form-control required' %>
       </noscript>
 
   <% else %>
@@ -43,3 +44,4 @@
 <% if Spree::Config["alternative_#{address_name[0] == 'b' ? 'billing' : 'shipping'}_phone"] %>
   <%= address_field(form, :alternative_phone, address_name) %>
 <% end %>
+</div>
