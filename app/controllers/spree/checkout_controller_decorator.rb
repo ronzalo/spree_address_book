@@ -3,6 +3,13 @@ Spree::CheckoutController.class_eval do
   
   after_filter :normalize_addresses, :only => :update
   before_filter :set_addresses, :only => :update
+
+  def before_address
+    @order.bill_address ||= Address.default(try_spree_current_user, "ship")
+    if @order.checkout_steps.include? "delivery"
+      @order.ship_address ||= Address.default(try_spree_current_user, "ship")
+    end
+  end
   
   protected
   
