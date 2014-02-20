@@ -1,11 +1,11 @@
 <% @addresses = spree_current_user ? spree_current_user.addresses : [] %>
 
 <div class="row">
-  <div class="col-sm-12" data-hook="shipping_fieldset_wrapper">
-    <div class="panel panel-default" id="shipping" data-hook>
-      <%= form.fields_for :ship_address do |ship_form| %>
+  <div class="col-sm-6" data-hook="billing_fieldset_wrapper">
+    <div class="panel panel-default" id="billing" data-hook>
+      <%= form.fields_for :bill_address do |bill_form| %>
         <div class="panel-heading">
-          <h3 class="panel-title"><%= Spree.t(:shipping_address) %></h3>
+          <h3 class="panel-title"><%= Spree.t(:billing_address) %></h3>
         </div>
         <% if @addresses.present? %>
           <p class="field select_address">
@@ -16,10 +16,33 @@
         <% end %>
         <div class="panel-body">          
           <%= render :partial => 'spree/addresses/form', :locals => {
+            :address_name => 'bill_address',
+            :form => bill_form,
+            :address_type => 'billing',
+            :address => @order.bill_address
+          } %>
+        </div>
+        
+      <% end %>
+    </div>
+  </div>
+
+  <div class="col-sm-6" data-hook="shipping_fieldset_wrapper" style="display:none">
+    <div class="panel panel-default" id="shipping" data-hook>
+      <%= form.fields_for :ship_address do |ship_form| %>
+        <div class="panel-heading">
+          <h3 class="panel-title"><%= Spree.t(:shipping_address) %></h3>
+        </div>
+        <div class="panel-body">
+          <p class="field checkbox" data-hook="use_billing">
+            <%= check_box_tag 'order[use_billing]', '1', @order.shipping_eq_billing_address? %>
+            <%= label_tag :order_use_billing, Spree.t(:use_billing_address), :id => 'use_billing' %>
+          </p>
+          <%= render :partial => 'spree/addresses/form', :locals => {
             :address_name => 'ship_address',
             :form => ship_form,
             :address_type => 'shipping',
-            :address => Spree::Address.default
+            :address => @order.ship_address
           } %>
         </div>
       <% end %>
@@ -32,7 +55,7 @@
 
   <span data-hook="save_user_address">
     &nbsp; &nbsp;
-    <%= check_box_tag 'save_user_address', '0', try_spree_current_user.respond_to?(:persist_order_address) %>
-    <%= label_tag :save_user_address, t('address_book.save_my_address') %>
+    <%= check_box_tag 'save_user_address', '1', try_spree_current_user.respond_to?(:persist_order_address) %>
+    <%= label_tag :save_user_address, Spree.t(:save_my_address) %>
   </span>
 </div>

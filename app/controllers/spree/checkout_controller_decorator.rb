@@ -5,10 +5,11 @@ Spree::CheckoutController.class_eval do
   before_filter :set_addresses, :only => :update
 
   def before_address
-    @order.bill_address ||= Address.default(try_spree_current_user, "ship")
+    @order.bill_address ||= Spree::Address.default(try_spree_current_user, "ship")
     if @order.checkout_steps.include? "delivery"
-      @order.ship_address ||= Address.default(try_spree_current_user, "ship")
+      @order.ship_address ||= Spree::Address.default(try_spree_current_user, "ship")
     end
+    @order.save
   end
   
   protected
