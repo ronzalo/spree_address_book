@@ -10,7 +10,7 @@
         <div class="panel-body">
           <% if @addresses.present? %>
             <div class="select_address">
-              <%= form.select "bill_address_id", @addresses.map{ |a| [a, a.id] }, include_blank: "-- Seleccionar dirección existente --" %>
+              <%= form.select("bill_address_id", @addresses.map{ |a| [a, a.id] }, {include_blank: "-- Seleccionar dirección existente --"}, {:class => "form-control"}) %>
             </div>
           <% end %>       
           <%= render :partial => 'spree/addresses/form', :locals => {
@@ -62,16 +62,16 @@
   $(document).ready(function(){
 
     if ($("#use_citybox").checked){
-      set_address_dummy(<%= Spree::State.find_by_name('Región Metropolitana').id %>);
+      set_address_dummy(<%= Spree::State.find_by_name('Metropolitana').id %>);
     } else {
-      remove_address_dummy(<%= Spree::State.find_by_name('Región Metropolitana').id %>);
+      remove_address_dummy(<%= Spree::State.find_by_name('Metropolitana').id %>);
     }
 
     $("#use_citybox").change(function(){
       if(this.checked){
-        set_address_dummy(<%= Spree::State.find_by_name('Región Metropolitana').id %>);
+        set_address_dummy(<%= Spree::State.find_by_name('Metropolitana').id %>);
       } else {
-        remove_address_dummy(<%= Spree::State.find_by_name('Región Metropolitana').id %>);
+        remove_address_dummy(<%= Spree::State.find_by_name('Metropolitana').id %>);
       }
     });
 
