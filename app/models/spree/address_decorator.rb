@@ -4,6 +4,7 @@
 
 Spree::Address.class_eval do
   belongs_to :user, :class_name => Spree.user_class.to_s
+  validates :phone, numericality: { only_integer: true }, length: { minimum: 8, maximum: 8 }
 
   def self.required_fields
     validator = Spree::Address.validators.find{|v| v.kind_of?(ActiveModel::Validations::PresenceValidator)}

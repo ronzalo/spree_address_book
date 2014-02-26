@@ -7,13 +7,6 @@
         <div class="panel-heading">
           <h3 class="panel-title"><%= Spree.t(:shipping_address) %></h3>
         </div>
-        <% if @addresses.present? %>
-          <p class="field select_address">
-            <%= form.label "ship_address_id", 'Quiero utilizar una dirección de despacho ya existente.'%>
-            <%= form.select "ship_address_id",  @addresses.map{ |a| [a, a.id] }.unshift(["-- Seleccione una dirección existente --", nil]), {}, {:class => 'form-control'} %>
-          </p>
-          <%= t('address_book.or_enter_new_address') %>
-        <% end %>
         <div class="panel-body">          
           <%= render :partial => 'spree/addresses/form', :locals => {
             :address_name => 'bill_address',
@@ -21,6 +14,12 @@
             :address_type => 'billing',
             :address => @order.bill_address
           } %>
+          <% if @addresses.present? %>
+            <p class="field select_address">
+              <%= form.label "ship_address_id", 'Quiero utilizar una dirección de despacho ya existente.'%>
+              <%= form.select "ship_address_id",  @addresses.map{ |a| [a, a.id] }.unshift(["-- Seleccione una dirección existente --", nil]), {}, {:class => 'form-control'} %>
+            </p>
+          <% end %>
         </div>
         
       <% end %>
@@ -55,7 +54,45 @@
 
   <span data-hook="save_user_address">
     &nbsp; &nbsp;
-    <%= check_box_tag 'save_user_address', '1', try_spree_current_user.respond_to?(:persist_order_address) %>
+    <%= check_box_tag 'save_user_address', '1', false %>
     <%= label_tag :save_user_address, Spree.t(:save_my_address) %>
   </span>
 </div>
+<script type="text/javascript">
+  $(document).ready(function(){
+
+    if ($("#use_citybox").checked){
+      set_address_dummy(<%= Spree::State.find_by_name('Región Metropolitana').id %>);
+    } else {
+      remove_address_dummy(<%= Spree::State.find_by_name('Región Metropolitana').id %>);
+    }
+
+    $("#use_citybox").change(function(){
+      if(this.checked){
+        set_address_dummy(<%= Spree::State.find_by_name('Región Metropolitana').id %>);
+      } else {
+        remove_address_dummy(<%= Spree::State.find_by_name('Región Metropolitana').id %>);
+      }
+    });
+
+    function set_address_dummy(state_id){
+      $(".citybox_hidden").hide();
+      $("#order_bill_address_attributes_address1").val('dummy_address1');
+      $("#order_bill_address_attributes_city").val('dummy_city');
+      $("#order_bill_address_attributes_state_id").val(state_id);
+      $("#order_bill_address_attributes_zipcode").val('8320000');
+    }
+
+    function remove_address_dummy(state_id){
+      if ($("#order_bill_address_attributes_address1").val() == 'dummy_address1')
+        $("#order_bill_address_attributes_address1").val('');
+
+      if ($("#order_bill_address_attributes_city").val() == 'dummy_city'){
+        $("#order_bill_address_attributes_city").val('');
+        $("#order_bill_address_attributes_state_id").val(state_id);
+      }
+              
+      $(".citybox_hidden").show();
+    }
+  });
+</script>

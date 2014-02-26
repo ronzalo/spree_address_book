@@ -3,20 +3,11 @@ Spree::CheckoutController.class_eval do
   
   after_filter :normalize_addresses, :only => :update
   before_filter :set_addresses, :only => :update
-
-  def before_address
-    @order.bill_address ||= Spree::Address.default(try_spree_current_user, "ship")
-    if @order.checkout_steps.include? "delivery"
-      @order.ship_address ||= Spree::Address.default(try_spree_current_user, "ship")
-    end
-    @order.save
-  end
   
   protected
   
   def set_addresses
-    return unless params[:order] && params[:state] == "address"
-    
+    return unless params[:order] && params[:state] == "address" && params[:use_citybox] == nil && params[:save_user_address] != nil
     if params[:order][:ship_address_id].to_i > 0
       params[:order].delete(:ship_address_attributes)
 
@@ -36,11 +27,12 @@ Spree::CheckoutController.class_eval do
   end
 
   def normalize_addresses
-    return unless params[:state] == "address" && @order.bill_address_id && @order.ship_address_id
-
+    return unless params[:state] == "address" && @order.bill_address_id && @order.ship_address_id && params[:save_user_address] != nil
     # ensure that there is no validation errors and addresses were saved
     return unless @order.bill_address and @order.ship_address
-    
+    # Don't save dummy address
+    return if @order.bill_address.address1 == "dummy_address1"
+
     bill_address = @order.bill_address
     ship_address = @order.ship_address
     if @order.bill_address_id != @order.ship_address_id && bill_address.same_as?(ship_address)
