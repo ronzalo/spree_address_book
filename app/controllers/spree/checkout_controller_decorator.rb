@@ -7,7 +7,7 @@ Spree::CheckoutController.class_eval do
   protected
   
   def set_addresses
-    return unless params[:order] && params[:state] == "address" && params[:use_citybox] == nil && params[:save_user_address] != nil
+    return unless params[:order] && params[:state] == "address"
     if params[:order][:ship_address_id].to_i > 0
       params[:order].delete(:ship_address_attributes)
 

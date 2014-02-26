@@ -7,19 +7,19 @@
         <div class="panel-heading">
           <h3 class="panel-title"><%= Spree.t(:shipping_address) %></h3>
         </div>
-        <div class="panel-body">          
+        <div class="panel-body">
+          <% if @addresses.present? %>
+            <div class="select_address">
+              <%= form.select "bill_address_id", @addresses.map{ |a| [a, a.id] }, include_blank: "-- Seleccionar dirección existente --" %>
+            </div>
+          <% end %>       
           <%= render :partial => 'spree/addresses/form', :locals => {
             :address_name => 'bill_address',
             :form => bill_form,
             :address_type => 'billing',
-            :address => @order.bill_address
+            :address => Spree::Address.default
           } %>
-          <% if @addresses.present? %>
-            <p class="field select_address">
-              <%= form.label "ship_address_id", 'Quiero utilizar una dirección de despacho ya existente.'%>
-              <%= form.select "ship_address_id",  @addresses.map{ |a| [a, a.id] }.unshift(["-- Seleccione una dirección existente --", nil]), {}, {:class => 'form-control'} %>
-            </p>
-          <% end %>
+          
         </div>
         
       <% end %>
@@ -41,7 +41,7 @@
             :address_name => 'ship_address',
             :form => ship_form,
             :address_type => 'shipping',
-            :address => @order.ship_address
+            :address => Spree::Address.default
           } %>
         </div>
       <% end %>
