@@ -40,7 +40,12 @@
     <%= form.label :city, Spree.t(:city) %><span class="required">*</span><br />
     <%= form.text_field :city, :class => 'form-control required' %>
   </p>
-  <%= form.hidden_field :country_id, :value => Spree::Country.find_by_name('Chile').id %>
+  <p class="field" id=<%="#{address_id}country" %>>
+    <%= form.label :country_id, Spree.t(:country) %><span class="required">*</span><br />
+    <span id=<%="#{address_id}country-selection" %>>
+      <%= form.collection_select :country_id, available_countries, :id, :name, {}, {:class => 'form-control required'} %>
+    </span>
+  </p>
   <% if Spree::Config[:address_requires_state] %>
     <p class="field" id=<%="#{address_id}state" %>>
       <% have_states = !address.country.states.empty? %>
