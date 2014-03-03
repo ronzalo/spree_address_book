@@ -41,21 +41,6 @@
       });
     }
   });
-
-  function hide_address_form(address_type){
-    if($("#new_" + address_type + "_address").data('active') == 0){
-      $("#new_" + address_type + "_address").data('active', 1)
-      _hide_address_form(address_type);
-    }
-  }
-  
-  function show_address_form(obj, address_type){
-    if($(obj).data('active') == 1){
-      $(obj).data('active', 0)
-      $("#order_" + address_type.substring(0, 4) + "_address_id").val(null);
-      _show_address_form(address_type);
-    }
-  }
   
   function _hide_address_form(address_type){
     $("#" + address_type + " .inner").hide();
