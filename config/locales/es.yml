@@ -1,5 +1,5 @@
 es:
-  address_book:
+  spree:
     other_address: "Otra dirección"
     choose_existing_address: "Quiero utilizar una dirección de despacho ya existente."
     add_new_shipping_address: "Agregar dirección de despacho"
@@ -15,4 +15,5 @@ es:
     unsuccessfully_updated: "Hay un error al intentar actualizar su dirección."
     save: "Guardar"
     save_my_address: "Guardar dirección"
+    region: "Región"
 
