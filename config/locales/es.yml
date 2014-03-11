@@ -1,5 +1,5 @@
 es:
-  spree:
+  address_book:
     other_address: "Otra dirección"
     choose_existing_address: "Quiero utilizar una dirección de despacho ya existente."
     add_new_shipping_address: "Agregar dirección de despacho"
