@@ -22,8 +22,6 @@
       <% end %>
       <%= form.phone_field :phone, :class => 'form-control required' %>
     </p>
-  </div>
-  <div class="col-sm-6">
     <% if Spree::Config[:company] %>
       <p class="field" id=<%="#{address_id}company" %>>
         <%= form.label :company, Spree.t(:company) %>
@@ -41,6 +39,8 @@
       <%= form.label :address2, Spree.t(:street_address_2) %>
       <%= form.text_field :address2, :class => 'form-control' %>
     </p>
+  </div>
+  <div class="col-sm-6">
     <p class="field" id=<%="#{address_id}commune" %>>
       <%= form.label :commune do %>
         <%= Spree.t(:commune) %>
