@@ -1,7 +1,7 @@
 (function($) {
 
   $(document).ready(function(){
-
+    $("#order_ship_address_attributes_id").remove();
     $("#order_bill_address_id").change(function(){
       if ($.isNumeric($(this).val())) {
         hide_address_form("billing");
@@ -15,6 +15,7 @@
     });
 
     if ($.isNumeric($("#order_bill_address_id").val())) {
+      $("#order_ship_address_attributes_id").remove();
       $('input#order_use_billing').unbind("click");
       $(".inner").hide();
       $(".inner input").prop("disabled", true);
